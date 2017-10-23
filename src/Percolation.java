@@ -1,3 +1,7 @@
+/**
+ * Created by asalle on 23.10.2017.
+ */
+
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 import java.util.concurrent.ThreadLocalRandom;
