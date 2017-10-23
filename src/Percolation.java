@@ -1,7 +1,5 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-import java.time.Clock;
-
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Percolation {
