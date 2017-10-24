@@ -5,18 +5,17 @@ import edu.princeton.cs.algs4.StdStats;
  * Created by asalle on 23.10.2017.
  */
 public class PercolationStats {
-    final private double[] p;
-    private double mean_;
-    private double stddev_;
-    private double confLo;
-    private double confHi;
+    final private double mean_;
+    final private double stddev_;
+    final private double confLo;
+    final private double confHi;
 
     // publics
     public PercolationStats(int n, int trials) { // perform trials independent experiments on an n-by-n grid
         if (n <= 0 || trials <= 0)
             throw new IllegalArgumentException();
 
-        p = new double[trials];
+        double[] p = new double[trials];
 
         for (int i = 0; i < trials; ++i) {
             Percolation perc = new Percolation(n);
@@ -31,8 +30,7 @@ public class PercolationStats {
 
         mean_ = StdStats.mean(p);
         stddev_ = StdStats.stddev(p);
-        final double Z = 1.96;
-        final double error = Z * stddev()/Math.sqrt(p.length);
+        final double error = 1.96 * stddev()/Math.sqrt(p.length);
         confLo = mean_ - error;
         confHi = mean_ + error;
     }
@@ -59,6 +57,6 @@ public class PercolationStats {
         PercolationStats percolationStats = new PercolationStats(n, t);
         System.out.println("mean: " + percolationStats.mean());
         System.out.println("stddev: " + percolationStats.stddev());
-        System.out.println("(5% confidence interval = [" + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi() + "]");
+        System.out.println("95% confidence interval: [" + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi() + "]");
     }
 }
