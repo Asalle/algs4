@@ -2,16 +2,22 @@
  * Created by asalle on 23.10.2017.
  */
 
+import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 public class Percolation {
+    final private WeightedQuickUnionUF mtx;
+    private boolean[][] isOpen;
+    private int openSitesCnt;
+    final private int mtxSize;
+
     public Percolation(int n)             // create n-by-n grid, with all sites blocked
     {
+        if (n < 1)
+            throw new IllegalArgumentException();
         n++;
         mtx = new WeightedQuickUnionUF(n*n);
-        isOpen = new int[n][n];
+        isOpen = new boolean[n][n];
         mtxSize = n-1;
     }
 
@@ -45,19 +51,30 @@ public class Percolation {
             mtx.union(at(row + 1, col), at(row, col));
         }
 
-        isOpen[row][col] = 1;
+        isOpen[row][col] = true;
         openSitesCnt++;
     }
 
     public boolean isOpen(int row, int col)  // is site (row, col) open?
     {
-        return isOpen[row][col] == 1;
+        if (row < 1 || row > mtxSize)
+            throw new IllegalArgumentException();
+        if (col < 1 || col > mtxSize)
+            throw new IllegalArgumentException();
+
+        return isOpen[row][col];
     }
 
     public boolean isFull(int row, int col)  // is site (row, col) full?
     {
+        if (row < 1 || row > mtxSize)
+            throw new IllegalArgumentException();
+        if (col < 1 || col > mtxSize)
+            throw new IllegalArgumentException();
+
+        int targetUnionNum = mtx.find(at(row, col));
         for (int i = 1; i <= mtxSize; ++i) {
-            if (isOpen(row, col) && isOpen(1, i) && (mtx.find(at(row, col)) == mtx.find(at(1, i)))) {
+            if (isOpen(row, col) && isOpen(1, i) && ( targetUnionNum == mtx.find(at(1, i)))) {
                 return true;
             }
         }
@@ -83,42 +100,14 @@ public class Percolation {
     {
         return row* mtxSize + col;
     }
-    private void print()
-    {
-        for (int i = 1; i <= mtxSize; ++i) {
-            System.out.print(i);
-        }
-        System.out.print("\n");
-
-        for (int i = 1; i <= mtxSize; ++i) {
-            for (int j = 1; j <= mtxSize; ++j) {
-                System.out.print(isOpen(i, j) ? "_" : "#");
-            }
-            System.out.print("\n");
-        }
-
-        System.out.print("\n");
-
-        for (int i = 1; i <= mtxSize; ++i) {
-            for (int j = 1; j <= mtxSize; ++j) {
-                System.out.print(mtx.find(at(i, j)) + " ");
-            }
-            System.out.print("\n");
-        }
-    }
-
-    private WeightedQuickUnionUF mtx;
-    private int[][] isOpen;
-    private int openSitesCnt;
-    private int mtxSize;
 
     public static void main(String[] args)   // test client (optional)
     {
         int num = 7;
         Percolation p = new Percolation(num);
         for (int i = 1; i <= 60; ++i) {
-            int rndx = ThreadLocalRandom.current().nextInt(1, num+1);
-            int rndy = ThreadLocalRandom.current().nextInt(1, num+1);
+            int rndx = StdRandom.uniform(1, num+1);
+            int rndy = StdRandom.uniform(1, num+1);
 
             p.open(rndx, rndy);
             if (p.percolates()) {

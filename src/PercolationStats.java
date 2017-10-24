@@ -1,54 +1,64 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by asalle on 23.10.2017.
  */
 public class PercolationStats {
+    final private double[] p;
+    private double mean_;
+    private double stddev_;
+    private double confLo;
+    private double confHi;
+
+    // publics
     public PercolationStats(int n, int trials) { // perform trials independent experiments on an n-by-n grid
         if (n <= 0 || trials <= 0)
             throw new IllegalArgumentException();
 
-        p = new ArrayList<Double>();
+        p = new double[trials];
 
-        while (trials-- != 0) {
+        for (int i = 0; i < trials; ++i) {
             Percolation perc = new Percolation(n);
             while (!perc.percolates()) {
-                int x = StdRandom.uniform(1, n);
-                int y = StdRandom.uniform(1, n);
+                int x = StdRandom.uniform(1, n+1);
+                int y = StdRandom.uniform(1, n+1);
                 perc.open(x, y);
             }
 
-            p.add(perc.numberOfOpenSites()*1.0/1.0*n*n);
+            p[i] = perc.numberOfOpenSites()*1.0/(1.0*n*n);
         }
+
+        mean_ = StdStats.mean(p);
+        stddev_ = StdStats.stddev(p);
+        final double Z = 1.96;
+        final double error = Z * stddev()/Math.sqrt(p.length);
+        confLo = mean_ - error;
+        confHi = mean_ + error;
     }
     public double mean() { // sample mean of percolation threshold
-
-        double[] tempArray = new double[p.size()];
-        for (int i = 0; i < p.size(); ++i) {
-            tempArray[i] = p.get(i);
-        }
-        return StdStats.mean(tempArray);
+        return mean_;
     }
     public double stddev() { // sample standard deviation of percolation threshold
-
+        return stddev_;
     }
     public double confidenceLo() { // low  endpoint of 95% confidence interval
-
+        return confLo;
     }
     public double confidenceHi() { // high endpoint of 95% confidence interval
-
+        return confHi;
     }
 
     public static void main(String[] args) { // test client (described below)
         if (args.length != 2)
             throw new IllegalArgumentException();
 
+        int n = Integer.parseInt(args[0]);
+        int t = Integer.parseInt(args[1]);
 
+        PercolationStats percolationStats = new PercolationStats(n, t);
+        System.out.println("mean: " + percolationStats.mean());
+        System.out.println("stddev: " + percolationStats.stddev());
+        System.out.println("(5% confidence interval = [" + percolationStats.confidenceLo() + ", " + percolationStats.confidenceHi() + "]");
     }
-
-    private List<Double> p;
 }
