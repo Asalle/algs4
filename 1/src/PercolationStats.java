@@ -5,10 +5,10 @@ import edu.princeton.cs.algs4.StdStats;
  * Created by asalle on 23.10.2017.
  */
 public class PercolationStats {
-    final private double mean_;
-    final private double stddev_;
-    final private double confLo;
-    final private double confHi;
+    private final double myMean;
+    private final double myStdDev;
+    private final double confLo;
+    private final double confHi;
 
     // publics
     public PercolationStats(int n, int trials) { // perform trials independent experiments on an n-by-n grid
@@ -28,17 +28,17 @@ public class PercolationStats {
             p[i] = perc.numberOfOpenSites()*1.0/(1.0*n*n);
         }
 
-        mean_ = StdStats.mean(p);
-        stddev_ = StdStats.stddev(p);
+        myMean = StdStats.mean(p);
+        myStdDev = StdStats.stddev(p);
         final double error = 1.96 * stddev()/Math.sqrt(p.length);
-        confLo = mean_ - error;
-        confHi = mean_ + error;
+        confLo = myMean - error;
+        confHi = myMean + error;
     }
     public double mean() { // sample mean of percolation threshold
-        return mean_;
+        return myMean;
     }
     public double stddev() { // sample standard deviation of percolation threshold
-        return stddev_;
+        return myStdDev;
     }
     public double confidenceLo() { // low  endpoint of 95% confidence interval
         return confLo;
