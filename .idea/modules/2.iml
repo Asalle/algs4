@@ -3,12 +3,13 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../2">
-      <sourceFolder url="file://$MODULE_DIR$/../../2/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../2/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../2/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/../../2/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../2/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="groovy-2.4.12" level="application" />
   </component>
 </module>
