@@ -9,36 +9,38 @@ import static edu.princeton.cs.algs4.StdRandom.uniform;
 
 public class RandomizedQueue<Item> {/*implements Iterable<Item> {*/
     private Item[] items;
-    int cur;
+    int head;
+    int tail;
 
     // public
     public RandomizedQueue() {
-        cur = -1;
+        head = 0;
+        tail = 0;
         items = (Item[]) new Object[20];
     } // construct an empty randomized queue
 
     public boolean isEmpty() {
-        return cur == -1;
+        return head >= tail || tail == 0;
     }                 // is the randomized queue empty?
 
     public int size() {
-        return cur+1;
+        return tail - head;
     }                        // return the number of items on the randomized queue
 
     public void enqueue(Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        if (cur >= items.length/4) { // TODO amortized add
+        if (size() >= items.length/4) { // TODO amortized add
 //            items = (Item[]) new Object(items.length)
         }
-        items[++cur] = item;
+        items[++tail] = item;
     }           // add the item
 
     public Item dequeue() { // TODO impl actual queue not stack
         if (isEmpty())
             throw new NoSuchElementException();
 
-        return (Item) items[cur--];
+        return (Item) items[++head];
     }                    // remove and return a random item
 
     public Item sample() {
@@ -46,8 +48,8 @@ public class RandomizedQueue<Item> {/*implements Iterable<Item> {*/
             throw new NoSuchElementException();
         }
 
-        int i = uniform(0, size());
-        return items[i];
+        int i = uniform(size());
+        return items[i+1];
     }                     // return a random item (but do not remove it)
 
 //    public Iterator<Item> iterator() {

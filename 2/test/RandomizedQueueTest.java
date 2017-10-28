@@ -57,17 +57,18 @@ public class RandomizedQueueTest {
         queue.enqueue(2);
         queue.enqueue(3);
         queue.enqueue(106);
+        queue.enqueue(8);
 
         Integer in = queue.sample();
-        System.out.println(in);
 
         boolean yes = false;
-        for (int i = 0; i < queue.size(); ++i) {
+        int s = queue.size();
+        for (int i = 0; i < s; ++i) {
             if (queue.dequeue() == in)
                 yes = true;
         }
 
-//        assertEquals(yes, true);
+        assertEquals(yes, true);
     }
 
     @Test
