@@ -46,6 +46,9 @@ public class Deque<Item> implements Iterable<Item> {
     private Node tail;
     private int size;
 
+    // TODO unsupported method on remove
+    // TODO addFirst and addLast check
+
     public Deque() {} // construct an empty deque
 
     public boolean isEmpty() {
