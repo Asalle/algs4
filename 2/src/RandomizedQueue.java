@@ -7,10 +7,34 @@ import static edu.princeton.cs.algs4.StdRandom.uniform;
  * Created by mirzaiev on 27.10.2017.
  */
 
-public class RandomizedQueue<Item> {/*implements Iterable<Item> {*/
+public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] items;
     int head;
     int tail;
+
+    private class RQIterator implements Iterator<Item> {
+        private int cur;
+
+        // public
+        public RQIterator() {
+            cur = head;
+        }
+
+        public boolean hasNext() {
+            return head - tail > 1;
+        }
+
+        public Item next() {
+            if (hasNext())
+                return items[++cur];
+            else
+                throw new NoSuchElementException();
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+    };
 
     // public
     public RandomizedQueue() {
@@ -52,9 +76,9 @@ public class RandomizedQueue<Item> {/*implements Iterable<Item> {*/
         return items[i+1];
     }                     // return a random item (but do not remove it)
 
-//    public Iterator<Item> iterator() {
-//
-//    }    // return an independent iterator over items in random order
+    public Iterator<Item> iterator() {
+        return new RQIterator();
+    }    // return an independent iterator over items in random order
 
     public static void main(String[] args) {
 
