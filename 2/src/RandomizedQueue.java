@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import static edu.princeton.cs.algs4.StdRandom.uniform;
+import edu.princeton.cs.algs4.StdRandom;
 
 /**
  * Created by mirzaiev on 27.10.2017.
@@ -9,8 +9,8 @@ import static edu.princeton.cs.algs4.StdRandom.uniform;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] items;
-    int head;
-    int tail;
+    private int head;
+    private int tail;
 
     private class RQIterator implements Iterator<Item> {
         private int cur;
@@ -36,9 +36,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     };
 
+    // public
+    public RandomizedQueue() {
+        head = 0;
+        tail = 0;
+        items = (Item[]) new Object[20];
+    } // construct an empty randomized queue
+
     private void resize(int cnt) {
         Item[] temp = (Item[]) new Object[cnt+1];
-        for(int i = 1; i <= size(); ++i) {
+        for (int i = 1; i <= size(); ++i) {
             temp[i] = items[head+i];
         }
         cnt = size();
@@ -46,13 +53,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         tail = cnt;
         items = temp;
     }
-
-    // public
-    public RandomizedQueue() {
-        head = 0;
-        tail = 0;
-        items = (Item[]) new Object[20];
-    } // construct an empty randomized queue
 
     public boolean isEmpty() {
         return head >= tail || tail == 0;
@@ -77,7 +77,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (size() < items.length/4) {
             resize(items.length/2);
         }
-        return (Item) items[++head];
+        return items[++head];
     }                    // remove and return a random item
 
     public Item sample() {
@@ -85,7 +85,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             throw new NoSuchElementException();
         }
 
-        int i = uniform(size());
+        int i = StdRandom.uniform(size());
         return items[i+1];
     }                     // return a random item (but do not remove it)
 
@@ -94,6 +94,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }    // return an independent iterator over items in random order
 
     public static void main(String[] args) {
-
+        // this line is intentionally left blank
     }  // unit testing (optional)
 }

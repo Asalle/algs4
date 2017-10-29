@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import org.testng.annotations.Test;
 
 import java.util.*;
@@ -128,5 +129,18 @@ public class DequeTest {
         assertEquals(it.next(), "world");
         assertEquals(it.next(), "Hello");
         it.next();
+    }
+
+    @Test
+    public void addFirstRemoveLastTest() throws Exception {
+        Deque<Integer> deq = new Deque<Integer>();
+        deq.addFirst(0);
+        deq.addFirst(1);
+        deq.addFirst(2);
+        deq.addFirst(3);
+        deq.removeLast();
+        deq.removeLast();
+
+        assertEquals(deq.size(), 2);
     }
 }

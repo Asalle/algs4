@@ -7,16 +7,28 @@ import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
 
+    private Node head;
+    private Node tail;
+    private int size;
+
     private class Node {
         private Node next;
         private Node prev;
-        private Item val;
+        private final Item val;
 
         Node(Node n, Node p, Item v)
         {
             next = n;
             prev = p;
             val = v;
+        }
+
+        public void setNext(Node n) {
+            next = n;
+        }
+
+        public void setPrev(Node p) {
+            prev = p;
         }
     }
 
@@ -34,10 +46,6 @@ public class Deque<Item> implements Iterable<Item> {
             if (cur != null) {
                 Item now = cur.val;
                 cur = cur.next;
-                if (cur == null)
-                {
-                    System.out.println("Next is null");
-                }
                 return now;
             }
             else {
@@ -50,13 +58,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
     }
 
-    private Node head;
-    private Node tail;
-    private int size;
+    public Deque() {
 
-    // TODO addFirst and addLast check
-
-    public Deque() {} // construct an empty deque
+    } // construct an empty deque
 
     public boolean isEmpty() {
         return head == null && tail == null;
@@ -72,6 +76,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         Node temp = new Node(head, null, item);
+        if (head != null) {
+            head.setPrev(temp);
+        }
         head = temp;
         if (tail == null)
             tail = temp;
@@ -84,6 +91,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         Node temp = new Node(null, tail, item);
+        if (tail != null) {
+            tail.setNext(temp);
+        }
         tail = temp;
         size++;
         if (head == null)
@@ -127,6 +137,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     public static void main(String[] args)   // unit testing (optional)
     {
-
+        // this line is intentionally left blank
     }
 }
