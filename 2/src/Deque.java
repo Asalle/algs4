@@ -34,11 +34,19 @@ public class Deque<Item> implements Iterable<Item> {
             if (cur != null) {
                 Item now = cur.val;
                 cur = cur.next;
+                if (cur == null)
+                {
+                    System.out.println("Next is null");
+                }
                 return now;
             }
             else {
                 throw new NoSuchElementException();
             }
+        }
+
+        public void remove() {
+            throw new UnsupportedOperationException();
         }
     }
 
@@ -46,7 +54,6 @@ public class Deque<Item> implements Iterable<Item> {
     private Node tail;
     private int size;
 
-    // TODO unsupported method on remove
     // TODO addFirst and addLast check
 
     public Deque() {} // construct an empty deque

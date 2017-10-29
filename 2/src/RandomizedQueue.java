@@ -36,6 +36,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
     };
 
+    private void resize(int cnt) {
+        Item[] temp = (Item[]) new Object[cnt+1];
+        for(int i = 1; i <= size(); ++i) {
+            temp[i] = items[head+i];
+        }
+        cnt = size();
+        head = 0;
+        tail = cnt;
+        items = temp;
+    }
+
     // public
     public RandomizedQueue() {
         head = 0;
@@ -54,16 +65,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public void enqueue(Item item) {
         if (item == null)
             throw new IllegalArgumentException();
-        if (size() >= items.length/4) { // TODO amortized add
-//            items = (Item[]) new Object(items.length)
+        if (items.length - tail <= 1) {
+            resize(items.length*2);
         }
         items[++tail] = item;
     }           // add the item
 
-    public Item dequeue() { // TODO impl actual queue not stack
+    public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
-
+        if (size() < items.length/4) {
+            resize(items.length/2);
+        }
         return (Item) items[++head];
     }                    // remove and return a random item
 

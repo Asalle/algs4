@@ -93,4 +93,42 @@ public class RandomizedQueueTest {
         }
     }
 
+    @Test
+    public void testExtending() throws Exception {
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+        final int constr = 100;
+        List<Integer> integerList = new ArrayList<Integer>();
+        for (int i = 0; i < constr; ++i) {
+            int item = uniform(constr);
+            integerList.add(item);
+            queue.enqueue(item);
+        }
+
+        int i = 0;
+        for (Integer integ: queue) {
+            assertEquals(integ, integerList.get(i++));
+        }
+    }
+
+    @Test
+    public void testShrinking() throws Exception {
+        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
+        final int constr = 100;
+        List<Integer> integerList = new ArrayList<Integer>();
+        for (int i = 0; i < constr; ++i) {
+            int item = uniform(constr);
+            integerList.add(item);
+            queue.enqueue(item);
+        }
+
+        for (int i = 0; i < constr/4*3; i++) {
+            queue.dequeue();
+            integerList.remove(0);
+        }
+
+        int i = 0;
+        for (Integer integ: queue) {
+            assertEquals(integ, integerList.get(i++));
+        }
+    }
 }

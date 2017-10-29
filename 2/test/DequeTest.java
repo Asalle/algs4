@@ -1,9 +1,6 @@
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.testng.Assert.*;
 
@@ -77,13 +74,13 @@ public class DequeTest {
     public void testIteratorManual() throws Exception {
         Deque<String> deq = new Deque<String>();
         deq.addFirst("Hello");
-//        deq.addLast("world");
-//        assertEquals(deq.size(), 2);
-//
-//        Iterator<String> it = deq.iterator();
-//
+        deq.addLast("world");
+        assertEquals(deq.size(), 2);
+
+        Iterator<String> it = deq.iterator();
+
+        assertEquals(it.next(), "Hello");
 //        assertEquals(it.next(), "world");
-//        assertEquals(it.next(), "Hello");
     }
 
     @Test
@@ -96,11 +93,25 @@ public class DequeTest {
         for (String item: testList) {
             deq.addLast(item);
         }
-        assertEquals(deq.size(), 2);
+
+        List<String> testListFirst = new ArrayList<String>();
+        testListFirst.add("I'm");
+        testListFirst.add("Asa");
+
+        for (String item: testListFirst) {
+            deq.addFirst(item);
+        }
+
+        assertEquals(deq.size(), testList.size() + testListFirst.size());
+
+        List<String> expec = new ArrayList<String>();
+        Collections.reverse(testListFirst);
+        expec.addAll(testListFirst);
+        expec.addAll(testList);
 
         int i = 0;
         for (String item: deq) {
-            assertEquals(item, testList.get(i));
+            assertEquals(item, expec.get(i));
             i++;
         }
     }
