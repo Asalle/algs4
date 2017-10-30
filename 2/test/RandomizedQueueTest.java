@@ -45,6 +45,7 @@ public class RandomizedQueueTest {
         assertEquals(queue.dequeue(), item);
     }
 
+    // dequeue is random
     @Test
     public void testDequeue() throws Exception {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
@@ -65,11 +66,11 @@ public class RandomizedQueueTest {
         queue.enqueue(8);
 
         Integer in = queue.sample();
-
         boolean yes = false;
         int s = queue.size();
         for (int i = 0; i < s; ++i) {
-            if (queue.dequeue() == in)
+            Integer act = queue.dequeue();
+            if (act == in)
                 yes = true;
         }
 
@@ -79,7 +80,7 @@ public class RandomizedQueueTest {
     @Test
     public void testIterator() throws Exception {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
-        final int constr = 19;
+        final int constr = 1;
         List<Integer> integerList = new ArrayList<Integer>();
         for (int i = 0; i < constr; ++i) {
             int item = uniform(constr);
@@ -94,41 +95,16 @@ public class RandomizedQueueTest {
     }
 
     @Test
-    public void testExtending() throws Exception {
+    public void testEnqDeq() throws Exception {
         RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
-        final int constr = 100;
-        List<Integer> integerList = new ArrayList<Integer>();
-        for (int i = 0; i < constr; ++i) {
-            int item = uniform(constr);
-            integerList.add(item);
-            queue.enqueue(item);
-        }
-
-        int i = 0;
-        for (Integer integ: queue) {
-            assertEquals(integ, integerList.get(i++));
-        }
-    }
-
-    @Test
-    public void testShrinking() throws Exception {
-        RandomizedQueue<Integer> queue = new RandomizedQueue<Integer>();
-        final int constr = 100;
-        List<Integer> integerList = new ArrayList<Integer>();
-        for (int i = 0; i < constr; ++i) {
-            int item = uniform(constr);
-            integerList.add(item);
-            queue.enqueue(item);
-        }
-
-        for (int i = 0; i < constr/4*3; i++) {
-            queue.dequeue();
-            integerList.remove(0);
-        }
-
-        int i = 0;
-        for (Integer integ: queue) {
-            assertEquals(integ, integerList.get(i++));
-        }
+        assertEquals(queue.isEmpty(), true);
+        assertEquals(queue.size(), 0);
+        assertEquals(queue.size(), 0);
+        queue.enqueue(26);
+        assertEquals(queue.dequeue(), new Integer(26));
+        assertEquals(queue.isEmpty(), true);
+        assertEquals(queue.size(), 0);
+        queue.enqueue(18);
+        assertEquals(queue.dequeue(), new Integer(18));
     }
 }

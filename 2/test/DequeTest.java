@@ -81,7 +81,7 @@ public class DequeTest {
         Iterator<String> it = deq.iterator();
 
         assertEquals(it.next(), "Hello");
-//        assertEquals(it.next(), "world");
+        assertEquals(it.next(), "world");
     }
 
     @Test

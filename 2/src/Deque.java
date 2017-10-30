@@ -39,7 +39,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public boolean hasNext() {
-            return cur != null && cur.next != null;
+            return cur != null;
         }
 
         public Item next() {
@@ -112,6 +112,9 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         head = head.next;
+        if (head != null) {
+            head.prev = null;
+        }
         size--;
         return  temp;
     }                // remove and return the item from the front
@@ -126,6 +129,9 @@ public class Deque<Item> implements Iterable<Item> {
             head = null;
         }
         tail = tail.prev;
+        if (tail != null) {
+            tail.next = null;
+        }
         size--;
 
         return temp;
