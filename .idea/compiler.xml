@@ -6,6 +6,8 @@
       <module name="1_test" target="1.8" />
       <module name="2_main" target="1.8" />
       <module name="2_test" target="1.8" />
+      <module name="3_main" target="1.8" />
+      <module name="3_test" target="1.8" />
       <module name="algs4_main" target="1.8" />
       <module name="algs4_test" target="1.8" />
     </bytecodeTargetLevel>

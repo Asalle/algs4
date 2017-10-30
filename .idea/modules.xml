@@ -8,6 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2.iml" filepath="$PROJECT_DIR$/.idea/modules/2.iml" group="2" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2/2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/2/2_main.iml" group="2" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/2/2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/2/2_test.iml" group="2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3.iml" filepath="$PROJECT_DIR$/.idea/modules/3.iml" group="3" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3/3_main.iml" filepath="$PROJECT_DIR$/.idea/modules/3/3_main.iml" group="3" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3/3_test.iml" filepath="$PROJECT_DIR$/.idea/modules/3/3_test.iml" group="3" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4_main.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4_main.iml" group="algs4" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4_test.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4_test.iml" group="algs4" />
