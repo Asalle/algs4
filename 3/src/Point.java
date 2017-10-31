@@ -73,6 +73,15 @@ public class Point implements Comparable<Point> {
             return 1;
     }
 
+    private class PointComparator implements Comparator<Point> {
+        public int compare(Point a, Point b) {
+            if (slopeTo(a) < slopeTo(b))
+                    return -1;
+            else
+                return 1;
+        }
+    }
+
     /**
      * Compares two points by the slope they make with this point.
      * The slope is defined as in the slopeTo() method.
@@ -80,7 +89,7 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        /* YOUR CODE HERE */
+        return new PointComparator();
     }
 
 
