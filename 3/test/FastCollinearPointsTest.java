@@ -4,13 +4,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
+import static org.testng.Assert.*;
+
 /**
  * Created by mirzaiev on 3.11.2017.
  */
-public class BruteCollinearPointsTest {
+public class FastCollinearPointsTest {
     @Test
     public void testNumberOfSegments() throws Exception {
-        Path filePath = Paths.get("/home/mirzaiev/me/coursera/algs4/tests/3/collinear/equidistant.txt");
+        Path filePath = Paths.get("/home/mirzaiev/me/coursera/algs4/tests/3/collinear/input8.txt");
         Scanner textReader = new Scanner(filePath);
         int n = textReader.nextInt();
         Point[] points = new Point[n];
@@ -21,21 +23,12 @@ public class BruteCollinearPointsTest {
             points[i] = new Point(a, b);
         }
 
-        BruteCollinearPoints bruteForce = new BruteCollinearPoints(points);
-//        System.out.println(bruteForce.numberOfSegments());
-//        for (LineSegment ls: bruteForce.segments()) {
-//            System.out.println(ls);
-//        }
-//        bruteForce.print();
-//
-//        for (Point p: points) {
-//            p.draw();
-//        }
+        FastCollinearPoints bruteForce = new FastCollinearPoints(points);
+        System.out.println(bruteForce.numberOfSegments());
     }
 
     @Test
     public void testSegments() throws Exception {
-
     }
 
 }
