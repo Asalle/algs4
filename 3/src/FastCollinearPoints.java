@@ -1,11 +1,9 @@
-//import java.util.Arrays;
-//
-//public class FastCollinearPoints {
-//
-//    private final LineSegment[] segments;
-//    private int segmentsCnt;
-//
-//    public FastCollinearPoints(Point[] points) {
+public class FastCollinearPoints {
+
+    private final LineSegment[] segments;
+    private int segmentsCnt;
+
+    public FastCollinearPoints(Point[] points) {
 //        checkConstructorArguments(points);
 //        if (points.length > 0) {
 //            Arrays.sort(points, points[0].slopeOrder());
@@ -50,40 +48,40 @@
 //                }
 //            }
 //
-//            segments = new LineSegment[segmentsCnt];
+            segments = new LineSegment[segmentsCnt];
 //            System.arraycopy(tempSegments, 0, segments, 0, segmentsCnt);
 //        }
 //        else {
 //            segments = new LineSegment[0];
 //        }
-//    }    // finds all line segments containing 4 or more points
-//
-//    private void checkConstructorArguments(Point[] points) {
-//        if (points == null)
-//            throw new IllegalArgumentException();
-//
-//        for (Point p: points) {
-//            if (p == null)
-//                throw new IllegalArgumentException();
-//        }
-//
-//        for (int i = 0; i < points.length; i++) {
-//            for (int j = i+1; j < points.length; j++) {
-//                if (points[i].compareTo(points[j]) == 0) {
-//                    throw new IllegalArgumentException();
-//                }
-//            }
-//        }
-//    }
-//
-//    public int numberOfSegments() {
-//        return segmentsCnt;
-//    }    // the number of line segments
-//
-//    public LineSegment[] segments() {
-//        LineSegment[] returnSegments = new LineSegment[segments.length];
-//        System.arraycopy(segments, 0, returnSegments, 0, segmentsCnt);
-//
-//        return returnSegments;
-//    }                  // the line segments
-//}
+    }    // finds all line segments containing 4 or more points
+
+    private void checkConstructorArguments(Point[] points) {
+        if (points == null)
+            throw new IllegalArgumentException();
+
+        for (Point p: points) {
+            if (p == null)
+                throw new IllegalArgumentException();
+        }
+
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i+1; j < points.length; j++) {
+                if (points[i].compareTo(points[j]) == 0) {
+                    throw new IllegalArgumentException();
+                }
+            }
+        }
+    }
+
+    public int numberOfSegments() {
+        return segmentsCnt;
+    }    // the number of line segments
+
+    public LineSegment[] segments() {
+        LineSegment[] returnSegments = new LineSegment[segments.length];
+        System.arraycopy(segments, 0, returnSegments, 0, segmentsCnt);
+
+        return returnSegments;
+    }                  // the line segments
+}
