@@ -21,31 +21,34 @@ public class BruteCollinearPoints {
             }
         }
 
-        LineSegment[] tempsegments = new LineSegment[points.length];
-        Arrays.sort(points, Point::compareTo);
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i+1; j < points.length; j++) {
-                for (int k = j+1; k < points.length; k++) {
-                    for (int r = k+1; r < points.length; r++) {
-                        if (Double.compare(points[i].slopeTo(points[j]), points[i].slopeTo(points[k])) == 0 &&
-                                Double.compare(points[i].slopeTo(points[r]), points[i].slopeTo(points[j])) == 0) {
+        Point[] pointsCopy = new Point[points.length];
+        System.arraycopy(points, 0, pointsCopy, 0, points.length);
+
+        LineSegment[] tempsegments = new LineSegment[pointsCopy.length];
+        Arrays.sort(pointsCopy, Point::compareTo);
+        for (int i = 0; i < pointsCopy.length; i++) {
+            for (int j = i+1; j < pointsCopy.length; j++) {
+                for (int k = j+1; k < pointsCopy.length; k++) {
+                    for (int r = k+1; r < pointsCopy.length; r++) {
+                        if (Double.compare(pointsCopy[i].slopeTo(pointsCopy[j]), pointsCopy[i].slopeTo(pointsCopy[k])) == 0 &&
+                                Double.compare(pointsCopy[i].slopeTo(pointsCopy[r]), pointsCopy[i].slopeTo(pointsCopy[j])) == 0) {
                             Point[] potentials = new Point[4];
-                            potentials[0] = points[i];
-                            potentials[1] = points[j];
-                            potentials[2] = points[k];
-                            potentials[3] = points[r];
+                            potentials[0] = pointsCopy[i];
+                            potentials[1] = pointsCopy[j];
+                            potentials[2] = pointsCopy[k];
+                            potentials[3] = pointsCopy[r];
 
                             LineSegment potentialNewSegment = new LineSegment(potentials[0], potentials[3]);
                             boolean alreadyPresent = false;
                             for (LineSegment ls: tempsegments) {
                                 if (ls == null)
                                     continue;
-                                if (ls.toString().equals(potentialNewSegment.toString()))
+                                if (ls == potentialNewSegment)
                                     alreadyPresent = true;
                             }
 
                             if (!alreadyPresent) {
-                                tempsegments[segmentsCnt] = new LineSegment(points[i], points[r]);
+                                tempsegments[segmentsCnt] = new LineSegment(pointsCopy[i], pointsCopy[r]);
                                 segmentsCnt++;
                             }
                         }

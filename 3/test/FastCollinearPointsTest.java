@@ -4,8 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import static org.testng.Assert.*;
-
 /**
  * Created by mirzaiev on 3.11.2017.
  */
@@ -23,8 +21,8 @@ public class FastCollinearPointsTest {
             points[i] = new Point(a, b);
         }
 
-        FastCollinearPoints bruteForce = new FastCollinearPoints(points);
-        System.out.println(bruteForce.numberOfSegments());
+//        FastCollinearPoints bruteForce = new FastCollinearPoints(points);
+//        System.out.println(bruteForce.numberOfSegments());
     }
 
     @Test
