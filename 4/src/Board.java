@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.abs;
 
 public final class Board {
@@ -126,10 +129,46 @@ public final class Board {
         return true;
     }
 
-//    public Iterable<Board> neighbors() {
-//
-//    }     // all neighboring boards
-//
+    private Board cloneWithSwitch(int iOld, int jOld, int iNew, int jNew) {
+        int[][] cloneContent = new int[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                cloneContent[i][j] = board[i][j];
+            }
+        }
+
+        int temp = cloneContent[iOld][jOld];
+        cloneContent[iOld][jOld] = cloneContent[iNew][jNew];
+        cloneContent[iNew][jNew] = temp;
+
+        return new Board(cloneContent);
+    }
+
+    public Iterable<Board> neighbors() {
+        List<Board> boardList = new ArrayList<Board>();
+
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (board[i][j] == 0) {
+                    if (i > 0){ // up
+                        boardList.add(cloneWithSwitch(i, j, i-1, j));
+                    }
+                    if (j > 0) { // left
+                        boardList.add(cloneWithSwitch(i, j, i, j-1));
+                    }
+                    if (i < dimension-1) { // down
+                        boardList.add(cloneWithSwitch(i, j, i+1, j));
+                    }
+                    if (j < dimension-1) { // right
+                        boardList.add(cloneWithSwitch(i, j, i, j+1));
+                    }
+                }
+            }
+        }
+
+        return boardList;
+    }     // all neighboring boards
+
     public String toString() {
         StringBuffer boardString = new StringBuffer();
         for (int i = 0; i < board.length; i++) {
