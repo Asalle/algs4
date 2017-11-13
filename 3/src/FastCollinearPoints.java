@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
-import edu.princeton.cs.algs4.StdOut;
 
 import java.util.Arrays;
 
@@ -11,8 +10,9 @@ public class FastCollinearPoints {
 
     public FastCollinearPoints(Point[] points) {
         checkConstructorArguments(points);
-        segments = new LineSegment[0];
+
         if (points.length == 0) {
+            segments = new LineSegment[0];
             return;
         }
 
@@ -21,85 +21,50 @@ public class FastCollinearPoints {
 
         segments = findCollinear(pointsCopy);
         segmentsCnt = segments.length;
-    }    // finds all line segments containing 4 or more points
+    }
 
     private LineSegment[] findCollinear(Point[] points) {
-        LineSegment[] candidateSegments = new LineSegment[points.length];
-        int segInd = 0;
-        for (int i = 0; i < points.length; i++) {
-            Point origin = points[i];
-            int otherPointsCnt = points.length - i - 1;
-            Point[] otherPoints = new Point[otherPointsCnt];
-            System.arraycopy(points, i+1, otherPoints, 0, otherPointsCnt);
-            segInd = getSegmentsCollinearToOrigin(origin, otherPoints, candidateSegments, segInd);
+        LineSegment[] containsNullSegments = new LineSegment[points.length];
+        int segCnt = 0;
+
+        Point[] pointsCopy = new Point[points.length];
+        System.arraycopy(points, 0, pointsCopy, 0, points.length);
+
+        for (Point origin : points) {
+            Arrays.sort(pointsCopy, origin.slopeOrder());
+
+            int l = 0, r = l;
+            while (l < pointsCopy.length && r < pointsCopy.length) {
+                if (equ(origin.slopeTo(pointsCopy[l]), origin.slopeTo(pointsCopy[r]))) {
+                    r++;
+                } else {
+                    segCnt = addSegment(l, r, containsNullSegments, pointsCopy, origin, segCnt);
+                    l = r;
+                }
+            }
+            // add final points
+            segCnt = addSegment(l, r, containsNullSegments, pointsCopy, origin, segCnt);
         }
 
-        System.out.println(segInd);
-
-        LineSegment[] noNullSegments = new LineSegment[segInd];
-        System.arraycopy(candidateSegments, 0, noNullSegments, 0, segInd);
-        return noNullSegments;
+        LineSegment[] returnSeg = new LineSegment[segCnt];
+        System.arraycopy(containsNullSegments, 0, returnSeg, 0, segCnt);
+        return returnSeg;
     }
 
-    private int getSegmentsCollinearToOrigin(Point origin, Point[] points, LineSegment[] alreadyInSegments, int segInd) {
-        Arrays.sort(points, origin.slopeOrder());
+    private int addSegment(int l, int r, LineSegment[] containsNullSegments, Point[] points, Point origin, int segCnt) {
+        if (r - l > 2) {
+            Point[] candidateSegment = new Point[r - l+1];
+            System.arraycopy(points, l, candidateSegment, 0, r - l);
+            candidateSegment[r-l] = origin;
+            Arrays.sort(candidateSegment);
 
-//        Double[] slopes = new Double[points.length];
-//        int ind = 0;
-//        for (Point p: points) {
-//            System.out.println(origin.slopeTo(p));
-//            slopes[ind++] = origin.slopeTo(p);
-//        }
-
-        int sameCnt = 0;
-        for (int i = 1; i < points.length; i++) {
-            if (equ(origin.slopeTo(points[i]), origin.slopeTo(points[i-1]))) {
-                sameCnt++;
-            }
-            else
-            {
-                segInd = insertLineSegment(sameCnt, i, origin, alreadyInSegments, segInd, points);
-                sameCnt = 0;
+            if (origin.compareTo(candidateSegment[0]) == 0) {
+                containsNullSegments[segCnt] = new LineSegment(candidateSegment[0], candidateSegment[r - l]);
+                segCnt++;
             }
         }
 
-        if (sameCnt >= 2) {
-
-            segInd = insertLineSegment(sameCnt, points.length, origin, alreadyInSegments, segInd, points);
-        }
-
-        return segInd;
-    }
-
-    private int insertLineSegment(int sameCnt, int size, Point origin, LineSegment[] alreadyInSegments, int segInd, Point[] points)
-    {
-        if (sameCnt >= 2) {
-            int end = size - 1;
-            int start = end - sameCnt;
-
-            Point[] collinearPoints = new Point[sameCnt + 1]; // and origin
-            System.arraycopy(points, start, collinearPoints, 0, sameCnt);
-            collinearPoints[collinearPoints.length - 1] = origin;
-
-            Arrays.sort(collinearPoints);
-            assert collinearPoints[0] != null;
-            assert collinearPoints[collinearPoints.length-1] != null;
-            LineSegment candidateSegment = new LineSegment(collinearPoints[0], collinearPoints[collinearPoints.length-1]);
-
-            boolean alreadyIn = false;
-            for (LineSegment ls: alreadyInSegments) {
-                if (ls == candidateSegment)
-                    alreadyIn = true;
-            }
-
-            if (!alreadyIn && candidateSegment != null) {
-                assert candidateSegment != null;
-                alreadyInSegments[segInd] = candidateSegment;
-                segInd++;
-            }
-        }
-
-        return segInd;
+        return segCnt;
     }
 
     private boolean equ(double a, double b) {
@@ -161,7 +126,7 @@ public class FastCollinearPoints {
         // print and draw the line segments
         FastCollinearPoints collinear = new FastCollinearPoints(points);
         for (LineSegment segment : collinear.segments()) {
-            StdOut.println(segment);
+//            StdOut.println(segment);
             segment.draw();
         }
         StdDraw.show();
