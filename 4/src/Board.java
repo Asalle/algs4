@@ -1,6 +1,8 @@
-public class Board {
-    private Integer dimension;
-    private Integer[][] board;
+import static java.lang.Math.abs;
+
+public final class Board {
+    private final Integer dimension;
+    private final Integer[][] board;
 
     private int[][] generateGoal(int n) {
         int[][] tempBoard = new int[n][n];
@@ -43,18 +45,67 @@ public class Board {
         return sum;
     }
 
-//    public int manhattan() {
-//
-//    }                 // sum of Manhattan distances between blocks and goal
-//
+    public int manhattan() {
+        int sum = 0;
+        int k = 1;
+
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                int value = board[i][j];
+                if (value != 0 && value != k) {
+                    int supposedToBeX = value/dimension;
+                    int supposedToBeY = value%dimension-1;
+                    int manhattanForCurBlock = abs(supposedToBeX - i) + abs(supposedToBeY - j);
+                    sum += manhattanForCurBlock;
+                }
+                k++;
+            }
+        }
+
+        return sum;
+    }
+
     public boolean isGoal() {
         return this.equals(new Board(generateGoal(dimension)));
     }
-//
-//    public Board twin() {
-//
-//    }                   // a board that is obtained by exchanging any pair of blocks
-//
+
+    public Board twin() {
+        int[][] twinContent = new int[dimension][dimension];
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                twinContent[i][j] = board[i][j];
+            }
+        }
+
+        int i1 = 0, j1 = 0, i2 = 0, j2 = 0;
+        boolean foundOne = false, foundTwo = false;
+
+        outerLoop:
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (foundOne && foundTwo) {
+                    int temp = twinContent[i1][j1];
+                    twinContent[i1][j1] = twinContent[i2][j2];
+                    twinContent[i2][j2] = temp;
+                    break outerLoop;
+                }
+                if (!foundOne && twinContent[i][j] != 0) {
+                    i1 = i;
+                    j1 = j;
+                    foundOne = true;
+                    continue;
+                }
+                if (!foundTwo && twinContent[i][j] != 0) {
+                    i2 = i;
+                    j2 = j;
+                    foundTwo = true;
+                }
+            }
+        }
+
+        return new Board(twinContent);
+    }
+
     public boolean equals(Object y) {
         if (this == y)
             return true;

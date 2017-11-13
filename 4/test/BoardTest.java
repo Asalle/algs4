@@ -20,8 +20,7 @@ public class BoardTest {
         assert board.dimension() == b.length;
     }
 
-    @Test
-    public void testHamming() throws Exception {
+    Board makeCourseraSampleBoard() {
         int size = 3;
         int[][] boardContents = new int[size][size];
         boardContents[0][0] = 8;
@@ -34,13 +33,19 @@ public class BoardTest {
         boardContents[2][1] = 6;
         boardContents[2][2] = 5;
 
-        Board board = new Board(boardContents);
+        return new Board(boardContents);
+    }
 
+    @Test
+    public void testHamming() throws Exception {
+        Board board = makeCourseraSampleBoard();
         assertEquals(board.hamming(), 5);
     }
 
     @Test
     public void testManhattan() throws Exception {
+        Board board = makeCourseraSampleBoard();
+        assertEquals(board.manhattan(), 10);
     }
 
     @Test
@@ -69,6 +74,12 @@ public class BoardTest {
 
     @Test
     public void testTwin() throws Exception {
+        Board testBoard = makeCourseraSampleBoard();
+        Board twin = testBoard.twin();
+
+        // we know that (1:1) is zero
+
+        assert testBoard.equals(twin) == false;
     }
 
     @Test
