@@ -26,10 +26,23 @@ public class Board {
         return dimension;
     }
 
-//    public int hamming() {
-//
-//    }                  // number of blocks out of place
-//
+    public int hamming() {
+        int sum = 0;
+
+        int k = 0;
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                int item = board[i][j];
+                if (item != 0 && item != k + 1) {
+                    sum++;
+                }
+                k++;
+            }
+        }
+
+        return sum;
+    }
+
 //    public int manhattan() {
 //
 //    }                 // sum of Manhattan distances between blocks and goal

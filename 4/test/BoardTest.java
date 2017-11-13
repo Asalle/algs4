@@ -1,5 +1,7 @@
 import org.testng.annotations.Test;
 
+import static org.testng.Assert.assertEquals;
+
 /**
  * Created by mirzaiev on 6.11.2017.
  */
@@ -20,6 +22,21 @@ public class BoardTest {
 
     @Test
     public void testHamming() throws Exception {
+        int size = 3;
+        int[][] boardContents = new int[size][size];
+        boardContents[0][0] = 8;
+        boardContents[0][1] = 1;
+        boardContents[0][2] = 3;
+        boardContents[1][0] = 4;
+        boardContents[1][1] = 0;
+        boardContents[1][2] = 2;
+        boardContents[2][0] = 7;
+        boardContents[2][1] = 6;
+        boardContents[2][2] = 5;
+
+        Board board = new Board(boardContents);
+
+        assertEquals(board.hamming(), 5);
     }
 
     @Test
