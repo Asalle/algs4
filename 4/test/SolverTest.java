@@ -16,4 +16,7 @@ public class SolverTest {
     public void testSolution() throws Exception {
     }
 
+    @Test
+    public void testAstar() throws Exception {
+    }
 }
