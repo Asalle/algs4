@@ -13,7 +13,13 @@ public final class Solver {
         if (initial == null) {
             throw new IllegalArgumentException();
         }
-        answer = aStar(initial);
+
+        isSolvable = true;
+        if (initial.isGoal()) {
+            answer = new ArrayList<>();
+        } else {
+            answer = aStar(initial);
+        }
     }
 
     private final class Node implements Comparable<Node> {
