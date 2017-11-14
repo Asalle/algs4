@@ -110,8 +110,9 @@ public final class Board {
     }
 
     public boolean equals(Object y) {
-        if (this == y)
-            return true;
+        if (this == y) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
 
         Board that = (Board) y;
         if (this.dimension() != that.dimension()) {
@@ -171,6 +172,8 @@ public final class Board {
 
     public String toString() {
         StringBuffer boardString = new StringBuffer();
+        boardString.append(dimension);
+        boardString.append("\n");
         for (int i = 0; i < board.length; i++) {
             for (int j = 0; j < board.length; j++) {
                 boardString.append(board[i][j] + " ");
