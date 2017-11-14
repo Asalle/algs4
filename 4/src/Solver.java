@@ -7,12 +7,12 @@ import java.util.List;
 
 public final class Solver {
     private final List<Board> answer;
+    private boolean isSolvable;
 
     public Solver(Board initial) {
         if (initial == null) {
             throw new IllegalArgumentException();
         }
-
         answer = aStar(initial);
     }
 
@@ -29,8 +29,8 @@ public final class Solver {
 
         @Override
         public int compareTo(Node that) {
-            int thisPriority = this.movesCnt + this.searchNode.hamming();
-            int thatPriority = that.movesCnt + that.searchNode.hamming();
+            int thisPriority = this.movesCnt + this.searchNode.manhattan();
+            int thatPriority = that.movesCnt + that.searchNode.manhattan();
             if (thisPriority < thatPriority)
                 return -1;
             else if (thisPriority > thatPriority)
@@ -42,29 +42,47 @@ public final class Solver {
 
     private List<Board> aStar(Board initial) {
         MinPQ<Node> boardQueue = new MinPQ<>();
+        MinPQ<Node> twinQueue = new MinPQ<>();
+
         boardQueue.insert(new Node(initial, 0, null));
+        twinQueue.insert(new Node(initial.twin(), 0, null));
 
         List<Board> answerSequence = new ArrayList<>();
 
         Node currentNode = boardQueue.delMin();
-        while (!currentNode.searchNode.isGoal()) {
+        Node currentTwinNode = twinQueue.delMin();
+
+        while (!currentNode.searchNode.isGoal() && !currentTwinNode.searchNode.isGoal()) {
             answerSequence.add(currentNode.searchNode);
+
             for (Board neighbor: currentNode.searchNode.neighbors()) {
                 if (neighbor.equals(currentNode.predec))
                     continue;
-
                 Node neighborNode = new Node(neighbor, currentNode.movesCnt+1, currentNode.searchNode);
                 boardQueue.insert(neighborNode);
             }
             currentNode = boardQueue.delMin();
+
+            for (Board twinNeighbor: currentTwinNode.searchNode.neighbors()) {
+                if (twinNeighbor.equals(currentTwinNode.predec))
+                    continue;
+                Node twinNeighborNode = new Node(twinNeighbor, currentTwinNode.movesCnt+1, currentTwinNode.searchNode);
+                twinQueue.insert(twinNeighborNode);
+            }
+            currentTwinNode = twinQueue.delMin();
         }
-        answerSequence.add(currentNode.searchNode);
+
+        if (currentTwinNode.searchNode.isGoal()) {
+            this.isSolvable = false;
+        } else {
+            answerSequence.add(currentNode.searchNode);
+        }
 
         return answerSequence;
     }
 
     public boolean isSolvable() {
-        return true;
+        return isSolvable;
     }
 
     public int moves() {
