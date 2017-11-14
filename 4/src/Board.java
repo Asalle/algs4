@@ -1,30 +1,36 @@
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.abs;
-
 public final class Board {
-    private final Integer dimension;
-    private final Integer[][] board;
-
-    private int[][] generateGoal(int n) {
-        int[][] tempBoard = new int[n][n];
-        int i = 0;
-        while (i < n*n-1) {
-            tempBoard[i/n][i%n] = i+1;
-            i++;
-        }
-        return tempBoard;
-    }
+    private final int dimension;
+    private final int[][] board;
 
     public Board(int[][] blocks) {
         dimension = blocks.length;
-        board = new Integer[dimension][dimension];
+        board = new int[dimension][dimension];
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 board[i][j] = blocks[i][j];
             }
         }
+    }
+
+    private int[][] generateGoal(int n) {
+        int[][] tempBoard = new int[n][n];
+        int i = 0;
+        while (i < n*n-1) {
+            tempBoard[i / n][i % n] = i+1;
+            i++;
+        }
+        return tempBoard;
+    }
+
+    private int myAbs(int i) {
+        if (i >= 0) {
+            return i;
+        }
+
+        return -1*i;
     }
 
     public int dimension() {
@@ -56,9 +62,9 @@ public final class Board {
             for (int j = 0; j < dimension; j++) {
                 int value = board[i][j];
                 if (value != 0 && value != k) {
-                    int supposedToBeX = value/dimension;
-                    int supposedToBeY = value%dimension-1;
-                    int manhattanForCurBlock = abs(supposedToBeX - i) + abs(supposedToBeY - j);
+                    int supposedToBeX = value / dimension;
+                    int supposedToBeY = value % dimension - 1;
+                    int manhattanForCurBlock = myAbs(supposedToBeX - i) + myAbs(supposedToBeY - j);
                     sum += manhattanForCurBlock;
                 }
                 k++;
@@ -151,7 +157,7 @@ public final class Board {
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 if (board[i][j] == 0) {
-                    if (i > 0){ // up
+                    if (i > 0) { // up
                         boardList.add(cloneWithSwitch(i, j, i-1, j));
                     }
                     if (j > 0) { // left
