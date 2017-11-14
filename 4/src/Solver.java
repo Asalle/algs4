@@ -6,13 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Solver {
-    private MinPQ<Node> boardQueue;
-    private List<Board> answer;
+    private final List<Board> answer;
 
-    private class Node implements Comparable<Node>{
-        private Board searchNode;
-        private int movesCnt;
-        private Board predec;
+    public Solver(Board initial) {
+        if (initial == null) {
+            throw new IllegalArgumentException();
+        }
+
+        answer = aStar(initial);
+    }
+
+    private final class Node implements Comparable<Node> {
+        private final Board searchNode;
+        private final int movesCnt;
+        private final Board predec;
 
         public Node(Board searchNode, int movesCnt, Board predec) {
             this.searchNode = searchNode;
@@ -34,13 +41,13 @@ public final class Solver {
     }
 
     private List<Board> aStar(Board initial) {
-        boardQueue = new MinPQ<>();
+        MinPQ<Node> boardQueue = new MinPQ<>();
         boardQueue.insert(new Node(initial, 0, null));
 
         List<Board> answerSequence = new ArrayList<>();
 
         Node currentNode = boardQueue.delMin();
-        while(!currentNode.searchNode.isGoal()) {
+        while (!currentNode.searchNode.isGoal()) {
             answerSequence.add(currentNode.searchNode);
             for (Board neighbor: currentNode.searchNode.neighbors()) {
                 if (neighbor.equals(currentNode.predec))
@@ -56,14 +63,6 @@ public final class Solver {
         return answerSequence;
     }
 
-    public Solver(Board initial) {
-        if (initial == null) {
-            throw new IllegalArgumentException();
-        }
-
-        answer = aStar(initial);
-    }
-
     public boolean isSolvable() {
         return true;
     }
@@ -72,7 +71,7 @@ public final class Solver {
         if (!isSolvable())
             return -1;
 
-        return answer.size();
+        return answer.size()-1;
     }
 
     public Iterable<Board> solution() {

@@ -49,6 +49,24 @@ public class BoardTest {
     }
 
     @Test
+    public void testManhattan2() throws Exception {
+        int size = 3;
+        int[][] boardContents = new int[size][size];
+        boardContents[0][0] = 0;
+        boardContents[0][1] = 1;
+        boardContents[0][2] = 3;
+        boardContents[1][0] = 4;
+        boardContents[1][1] = 2;
+        boardContents[1][2] = 5;
+        boardContents[2][0] = 7;
+        boardContents[2][1] = 8;
+        boardContents[2][2] = 6;
+
+        Board board = new Board(boardContents);
+        assertEquals(board.manhattan(), 4);
+    }
+
+    @Test
     public void testIsGoal() throws Exception {
         int size = 5;
         int[][] b = new int[size][size];

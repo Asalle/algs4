@@ -62,8 +62,8 @@ public final class Board {
             for (int j = 0; j < dimension; j++) {
                 int value = board[i][j];
                 if (value != 0 && value != k) {
-                    int supposedToBeX = value / dimension;
-                    int supposedToBeY = value % dimension - 1;
+                    int supposedToBeX = (value-1) / dimension;
+                    int supposedToBeY = (value-1) % dimension;
                     int manhattanForCurBlock = myAbs(supposedToBeX - i) + myAbs(supposedToBeY - j);
                     sum += manhattanForCurBlock;
                 }
@@ -177,7 +177,7 @@ public final class Board {
     }     // all neighboring boards
 
     public String toString() {
-        StringBuffer boardString = new StringBuffer();
+        StringBuilder boardString = new StringBuilder();
         boardString.append(dimension);
         boardString.append("\n");
         for (int i = 0; i < board.length; i++) {
