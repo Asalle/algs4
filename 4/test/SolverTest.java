@@ -26,7 +26,7 @@ public class SolverTest {
     }
 
     @Test
-    public void testMoves() throws Exception {
+    public void testZeroMoves() throws Exception {
     }
 
     @Test

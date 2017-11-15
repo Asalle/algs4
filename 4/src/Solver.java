@@ -3,11 +3,12 @@ import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.StdOut;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collections;
 
 public final class Solver {
-    private final List<Board> answer;
+    private final ArrayList<Board> answer;
     private boolean isSolvable;
+    private boolean isGoal;
 
     public Solver(Board initial) {
         if (initial == null) {
@@ -15,22 +16,25 @@ public final class Solver {
         }
 
         isSolvable = true;
+        answer = new ArrayList<>();
+
         if (initial.isGoal()) {
-            answer = new ArrayList<>();
+            answer.add(initial);
+            isGoal = true;
         } else {
-            answer = aStar(initial);
+            aStar(initial);
         }
     }
 
     private final class Node implements Comparable<Node> {
         private final Board searchNode;
         private final int movesCnt;
-        private final Board predec;
+        private final Node pre;
 
-        public Node(Board searchNode, int movesCnt, Board predec) {
+        public Node(Board searchNode, int movesCnt, Node pre) {
             this.searchNode = searchNode;
             this.movesCnt = movesCnt;
-            this.predec = predec;
+            this.pre = pre;
         }
 
         @Override
@@ -46,33 +50,31 @@ public final class Solver {
         }
     }
 
-    private List<Board> aStar(Board initial) {
+    private void aStar(Board initial) {
         MinPQ<Node> boardQueue = new MinPQ<>();
         MinPQ<Node> twinQueue = new MinPQ<>();
 
         boardQueue.insert(new Node(initial, 0, null));
         twinQueue.insert(new Node(initial.twin(), 0, null));
 
-        List<Board> answerSequence = new ArrayList<>();
+//        ArrayList<Board> answerSequence = new ArrayList<>();
 
         Node currentNode = boardQueue.delMin();
         Node currentTwinNode = twinQueue.delMin();
 
         while (!currentNode.searchNode.isGoal() && !currentTwinNode.searchNode.isGoal()) {
-            answerSequence.add(currentNode.searchNode);
-
             for (Board neighbor: currentNode.searchNode.neighbors()) {
-                if (neighbor.equals(currentNode.predec))
+                if (currentNode.pre != null && neighbor.equals(currentNode.pre.searchNode))
                     continue;
-                Node neighborNode = new Node(neighbor, currentNode.movesCnt+1, currentNode.searchNode);
+                Node neighborNode = new Node(neighbor, currentNode.movesCnt+1, currentNode);
                 boardQueue.insert(neighborNode);
             }
             currentNode = boardQueue.delMin();
 
             for (Board twinNeighbor: currentTwinNode.searchNode.neighbors()) {
-                if (twinNeighbor.equals(currentTwinNode.predec))
+                if (currentTwinNode.pre != null && twinNeighbor.equals(currentTwinNode.pre.searchNode))
                     continue;
-                Node twinNeighborNode = new Node(twinNeighbor, currentTwinNode.movesCnt+1, currentTwinNode.searchNode);
+                Node twinNeighborNode = new Node(twinNeighbor, currentTwinNode.movesCnt+1, currentTwinNode);
                 twinQueue.insert(twinNeighborNode);
             }
             currentTwinNode = twinQueue.delMin();
@@ -80,11 +82,16 @@ public final class Solver {
 
         if (currentTwinNode.searchNode.isGoal()) {
             this.isSolvable = false;
+            answer.clear();
         } else {
-            answerSequence.add(currentNode.searchNode);
+            answer.add(currentNode.searchNode);
+            while (!currentNode.searchNode.equals(initial) && currentNode.pre != null) {
+                currentNode = currentNode.pre;
+                answer.add(currentNode.searchNode);
+            }
         }
 
-        return answerSequence;
+        Collections.reverse(answer);
     }
 
     public boolean isSolvable() {
@@ -95,10 +102,16 @@ public final class Solver {
         if (!isSolvable())
             return -1;
 
+        if (isGoal)
+            return 0;
+
         return answer.size()-1;
     }
 
     public Iterable<Board> solution() {
+        if (!isSolvable())
+            return null;
+
         return answer;
     }
 
