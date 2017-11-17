@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Queue;
 
 public class KdTree {
+    private static final boolean VECTICAL = false;
+
     private Node head;
     private int nodeCnt;
     private double maxX;
     private double maxY;
-
-    private static final boolean VECTICAL = false;
 
     private static class Node {
         private final Point2D point;
@@ -52,6 +52,8 @@ public class KdTree {
     }
 
     public void insert(Point2D p) {
+        if (p == null)
+            throw new IllegalArgumentException();
         if (contains(p)) {
             return;
         }
@@ -93,6 +95,9 @@ public class KdTree {
     }
 
     public boolean contains(Point2D p) {
+        if (p == null)
+            throw new IllegalArgumentException();
+
         Queue<Node> checkQueue = new LinkedList<>();
         checkQueue.add(head);
 
@@ -134,6 +139,9 @@ public class KdTree {
     }
 
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null)
+            throw new IllegalArgumentException();
+
         List<Point2D> rangeList = new LinkedList<>();
 
         Queue<Node> checkQueue = new LinkedList<>();
@@ -149,11 +157,23 @@ public class KdTree {
                     checkQueue.add(curNode.right);
                 } else {
                     if (curNode.color == VECTICAL) {
-                        if (rect.xmax() < curNode.point.x()) checkQueue.add(curNode.left);
-                        if (rect.xmin() > curNode.point.x()) checkQueue.add(curNode.right);
+                        if (rect.xmax() < curNode.point.x())
+                            checkQueue.add(curNode.left);
+                        else if (rect.xmin() > curNode.point.x())
+                            checkQueue.add(curNode.right);
+                        else {
+                            checkQueue.add(curNode.left);
+                            checkQueue.add(curNode.right);
+                        }
                     } else {
-                        if (rect.ymax() < curNode.point.y()) checkQueue.add(curNode.right);
-                        if (rect.ymin() > curNode.point.y()) checkQueue.add(curNode.left);
+                        if (rect.ymax() < curNode.point.y())
+                            checkQueue.add(curNode.left);
+                        else if (rect.ymin() > curNode.point.y())
+                            checkQueue.add(curNode.right);
+                        else {
+                            checkQueue.add(curNode.left);
+                            checkQueue.add(curNode.right);
+                        }
                     }
 
                 }
@@ -163,7 +183,11 @@ public class KdTree {
 
         return rangeList;
     }
+
     public Point2D nearest(Point2D p) {
+        if (p == null)
+            throw new IllegalArgumentException();
+
         if (isEmpty())
             return null;
 
@@ -190,11 +214,16 @@ public class KdTree {
     }
 
     public static void main(String[] args) {
-        KdTree set = new KdTree();
-        set.insert(new Point2D(2, 3));
-        set.insert(new Point2D(5, 6));
-        set.insert(new Point2D(1, 10));
-
-        set.draw();
+//        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10.txt";
+//        In in = new In(filename);
+//        PointSET brute = new PointSET();
+//        KdTree kdtree = new KdTree();
+//        while (!in.isEmpty()) {
+//            double x = in.readDouble();
+//            double y = in.readDouble();
+//            Point2D p = new Point2D(x, y);
+//            kdtree.insert(p);
+//            brute.insert(p);
+//        }
     }
 }

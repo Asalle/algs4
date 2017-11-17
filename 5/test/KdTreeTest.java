@@ -1,13 +1,13 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdRandom;
 import org.testng.annotations.Test;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import static java.lang.Double.max;
+import static java.lang.Double.min;
 import static org.testng.Assert.assertEquals;
 
 public class KdTreeTest {
@@ -118,6 +118,70 @@ public class KdTreeTest {
         for (int i = 0; i < size; i++) {
             Point2D point = new Point2D(StdRandom.uniform(100, size5), StdRandom.uniform(100, size5));
             assertEquals(tree.contains(point), false);
+        }
+    }
+
+    @Test
+    public void testCompareToBruteRange() throws Exception {
+        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10.txt";
+        In in = new In(filename);
+        PointSET brute = new PointSET();
+        KdTree kdtree = new KdTree();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+            brute.insert(p);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            double x1 = StdRandom.uniform();
+            double x2 = StdRandom.uniform();
+            double y1 = StdRandom.uniform();
+            double y2 = StdRandom.uniform();
+
+            RectHV rect = new RectHV(min(x1, x2), min(y1, y2), max(x1, x2), max(y1, y2));
+            Iterable<Point2D> bruteRange = brute.range(rect);
+            Iterable<Point2D> treeRange = kdtree.range(rect);
+
+            for (Point2D brutePoint: bruteRange) {
+                boolean contains = false;
+                for (Point2D treePoint: treeRange) {
+                    if (brutePoint.equals(treePoint))
+                        contains = true;
+                }
+                assertEquals(contains, true);
+            }
+        }
+    }
+
+    @Test
+    public void testCompareToBruteNearest() throws Exception {
+        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10.txt";
+        In in = new In(filename);
+        PointSET brute = new PointSET();
+        KdTree kdtree = new KdTree();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+            brute.insert(p);
+        }
+
+        for (int i = 0; i < 1; i++) {
+//            double x1 = StdRandom.uniform();
+//            double y1 = StdRandom.uniform();
+            double x1 = 0.9821705704598279;
+            double y1 = 0.611747804184406;
+
+            Point2D randomPoint = new Point2D(x1, y1);
+            System.out.println(randomPoint);
+            Point2D bruteNearest = brute.nearest(randomPoint);
+            Point2D treeNearest = kdtree.nearest(randomPoint);
+
+           assertEquals(bruteNearest, treeNearest);
         }
     }
 }

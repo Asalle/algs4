@@ -74,8 +74,9 @@ public class RangeSearchVisualizer {
             brute.draw();
 
             // draw the rectangle
-            RectHV rect = new RectHV(Math.min(x0, x1), Math.min(y0, y1),
-                                     Math.max(x0, x1), Math.max(y0, y1));
+//            RectHV rect = new RectHV(Math.min(x0, x1), Math.min(y0, y1),
+//                                     Math.max(x0, x1), Math.max(y0, y1));
+            RectHV rect = new RectHV(0.266, 0.466, 0.054, 0.678);
             StdDraw.setPenColor(StdDraw.BLACK);
             StdDraw.setPenRadius();
             rect.draw();
