@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdDraw;
 import java.util.ArrayList;
 
 public class PointSET {
-    private SET<Point2D> pointSet;
+    private final SET<Point2D> pointSet;
     private double maxX;
     private double maxY;
 
@@ -66,7 +66,7 @@ public class PointSET {
         ArrayList<Point2D> insideList = new ArrayList<>();
 
         for (Point2D point: pointSet) {
-            if(rect.contains(point)) {
+            if (rect.contains(point)) {
                 insideList.add(point);
             }
         }
@@ -84,7 +84,7 @@ public class PointSET {
 
         Point2D minDistancePoint = new Point2D(Double.MAX_VALUE, Double.MAX_VALUE);
         for (Point2D point: pointSet) {
-            double currentDistance = p.distanceTo(point);
+            double currentDistance = p.distanceSquaredTo(point);
             double minDistance = p.distanceSquaredTo(minDistancePoint);
             if (Double.compare(minDistance, currentDistance) > 0) {
                 minDistancePoint = point;
