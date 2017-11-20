@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1.iml" filepath="$PROJECT_DIR$/.idea/modules/1.iml" group="1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1/1_main.iml" filepath="$PROJECT_DIR$/.idea/modules/1/1_main.iml" group="1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1/1_test.iml" filepath="$PROJECT_DIR$/.idea/modules/1/1_test.iml" group="1" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2.iml" filepath="$PROJECT_DIR$/.idea/modules/2.iml" group="2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2/2_main.iml" filepath="$PROJECT_DIR$/.idea/modules/2/2_main.iml" group="2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2/2_test.iml" filepath="$PROJECT_DIR$/.idea/modules/2/2_test.iml" group="2" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3.iml" filepath="$PROJECT_DIR$/.idea/modules/3.iml" group="3" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3/3_main.iml" filepath="$PROJECT_DIR$/.idea/modules/3/3_main.iml" group="3" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/3/3_test.iml" filepath="$PROJECT_DIR$/.idea/modules/3/3_test.iml" group="3" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/4.iml" filepath="$PROJECT_DIR$/.idea/modules/4.iml" group="4" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/4/4_main.iml" filepath="$PROJECT_DIR$/.idea/modules/4/4_main.iml" group="4" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/4/4_test.iml" filepath="$PROJECT_DIR$/.idea/modules/4/4_test.iml" group="4" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/5.iml" filepath="$PROJECT_DIR$/.idea/modules/5.iml" group="5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/5/5_main.iml" filepath="$PROJECT_DIR$/.idea/modules/5/5_main.iml" group="5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/5/5_test.iml" filepath="$PROJECT_DIR$/.idea/modules/5/5_test.iml" group="5" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4_main.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4_main.iml" group="algs4" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/algs4_test.iml" filepath="$PROJECT_DIR$/.idea/modules/algs4_test.iml" group="algs4" />
+    </modules>
+  </component>
+</project>
