@@ -4,7 +4,10 @@ import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdRandom;
 import org.testng.annotations.Test;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import static java.lang.Double.max;
 import static java.lang.Double.min;
@@ -158,7 +161,7 @@ public class KdTreeTest {
 
     @Test
     public void testCompareToBruteNearest() throws Exception {
-        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10.txt";
+        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10K.txt";
         In in = new In(filename);
         PointSET brute = new PointSET();
         KdTree kdtree = new KdTree();
@@ -170,18 +173,16 @@ public class KdTreeTest {
             brute.insert(p);
         }
 
-        for (int i = 0; i < 1; i++) {
-//            double x1 = StdRandom.uniform();
-//            double y1 = StdRandom.uniform();
-            double x1 = 0.9821705704598279;
-            double y1 = 0.611747804184406;
+        for (int i = 0; i < 10; i++) {
+            double x1 = StdRandom.uniform();
+            double y1 = StdRandom.uniform();
+            System.out.println(x1 + " " + y1);
 
             Point2D randomPoint = new Point2D(x1, y1);
-            System.out.println(randomPoint);
             Point2D bruteNearest = brute.nearest(randomPoint);
             Point2D treeNearest = kdtree.nearest(randomPoint);
 
-           assertEquals(bruteNearest, treeNearest);
+           assertEquals(treeNearest, bruteNearest);
         }
     }
 }

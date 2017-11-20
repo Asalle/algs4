@@ -1,3 +1,4 @@
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.StdDraw;
@@ -13,6 +14,7 @@ public class KdTree {
     private int nodeCnt;
     private double maxX;
     private double maxY;
+    private Point2D nearestPoint;
 
     private static class Node {
         private final Point2D point;
@@ -41,6 +43,7 @@ public class KdTree {
     }
 
     public KdTree() {
+        nearestPoint = new Point2D(Double.MAX_VALUE, Double.MAX_VALUE);
     }                              // construct an empty set of points
 
     public boolean isEmpty() {
@@ -135,7 +138,7 @@ public class KdTree {
             }
         }
 
-        StdDraw.show();
+//        StdDraw.show();
     }
 
     public Iterable<Point2D> range(RectHV rect) {
@@ -191,39 +194,86 @@ public class KdTree {
         if (isEmpty())
             return null;
 
-        Node nearestNode = head;
-        Queue<Node> checkQueue = new LinkedList<>();
-        checkQueue.add(nearestNode);
+        nearestPoint = head.point;
+        nearest(p, head);
 
-        while (!checkQueue.isEmpty()) {
-            Node curNode = checkQueue.remove();
+        return nearestPoint;
+    }
 
-            if (curNode != null) {
-                if (p.distanceSquaredTo(nearestNode.point) > p.distanceSquaredTo(curNode.point))
-                    nearestNode = curNode;
-                if (curNode.point.equals(p))
-                    return curNode.point;
-                if (curNode.eq(p) < 0)
-                    checkQueue.add(curNode.right);
-                if (curNode.eq(p) > 0)
-                    checkQueue.add(curNode.left);
-            }
+    private void nearest(Point2D p, Node node)
+    {
+        if (node == null)
+            return;
+
+        if (p.distanceSquaredTo(node.point) < p.distanceSquaredTo(nearestPoint))
+        {
+            nearestPoint = node.point;
         }
 
-        return nearestNode.point;
+        if (node.left == null) {
+            nearest(p, node.right);
+            return;
+        }
+
+        if (node.right == null) {
+            nearest(p, node.left);
+            return;
+        }
+
+        double toLeft = p.distanceSquaredTo(node.left.point);
+        double toRight = p.distanceSquaredTo(node.right.point);
+        boolean leftFirst = false;
+        if (toLeft < toRight) {
+            nearest(p, node.left);
+            leftFirst = true;
+        } else {
+            nearest(p, node.right);
+        }
+
+        double orientationDistance = 0;
+        if (leftFirst) {
+            orientationDistance = orientationDistance(p, node.right);
+        } else {
+            orientationDistance = orientationDistance(p, node.left);
+        }
+
+        double nearestD = p.distanceSquaredTo(nearestPoint);
+        if (orientationDistance < nearestD)
+        {
+            nearest(p, (leftFirst ? node.right : node.left));
+        }
+    }
+
+    private double orientationDistance(Point2D p, Node node) {
+        if (node.color == VECTICAL) {
+            return p.distanceSquaredTo(new Point2D(node.point.x(), p.y()));
+        } else {
+            return p.distanceSquaredTo(new Point2D(p.x(), node.point.y()));
+        }
     }
 
     public static void main(String[] args) {
-//        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/input10.txt";
-//        In in = new In(filename);
-//        PointSET brute = new PointSET();
-//        KdTree kdtree = new KdTree();
-//        while (!in.isEmpty()) {
-//            double x = in.readDouble();
-//            double y = in.readDouble();
-//            Point2D p = new Point2D(x, y);
-//            kdtree.insert(p);
-//            brute.insert(p);
-//        }
+        String filename = "/home/mirzaiev/me/coursera/algs4/tests/5/kdtree/circle4.txt";
+        In in = new In(filename);
+        PointSET brute = new PointSET();
+        KdTree kdtree = new KdTree();
+        while (!in.isEmpty()) {
+            double x = in.readDouble();
+            double y = in.readDouble();
+            Point2D p = new Point2D(x, y);
+            kdtree.insert(p);
+            brute.insert(p);
+        }
+
+        double x1 = 574;
+        double y1 = 770;
+//        double x1 = 2;
+//        double y1 = 3;
+        Point2D point = new Point2D(x1, y1);
+
+        StdDraw.setPenRadius(0.01);
+        kdtree.draw();
+//        point.draw();
+        StdDraw.show();
     }
 }
