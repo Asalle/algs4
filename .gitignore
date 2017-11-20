@@ -3,5 +3,7 @@
 .idea/gradle.xml
 .idea/vcs.xml
 .idea/libraries
+.idea/**/*.iml
+gradle*
 out
 tests
